@@ -9,3 +9,11 @@ id,title,artist,genre,mood,energy,tempo_bpm,valence,danceability,acousticness
 8,Night Drive Loop,Neon Echo,synthwave,moody,0.75,110,0.49,0.73,0.22
 9,Focus Flow,LoRoom,lofi,focused,0.40,80,0.59,0.60,0.78
 10,Rooftop Lights,Indigo Parade,indie pop,happy,0.76,124,0.81,0.82,0.35
+11,Garden Steps,Maple Static,folk,reflective,0.31,82,0.55,0.42,0.92
+12,Brass on Canal,West Loop,ska,playful,0.86,154,0.90,0.74,0.34
+13,Concrete Letters,Sidewalk Ink,hip hop,sad,0.88,94,0.33,0.71,0.25
+14,Signal in Blue,Prism Dial,drum and bass,urgent,0.96,174,0.45,0.81,0.08
+15,Amber Courtyard,Juniper Bow,classical,serene,0.24,64,0.61,0.20,0.98
+16,Market at Dusk,Calle Lumen,salsa,celebratory,0.83,142,0.91,0.88,0.51
+17,Window Seat,Quiet North,soul,wistful,0.49,87,0.44,0.60,0.62
+18,Transit Bloom,Glass Current,house,happy,0.80,125,0.81,0.88,0.14
