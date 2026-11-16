@@ -1,122 +1,57 @@
-# 🎵 Music Recommender Simulation
+# Music Recommender Simulation
 
-## Project Summary
+VibeRank ranks a small catalog against an explicit taste profile and explains each result. Run it with Python 3.10 or later from the repository root.
 
-In this project you will build and explain a small music recommender system.
-
-Your goal is to:
-
-- Represent songs and a user "taste profile" as data
-- Design a scoring rule that turns that data into recommendations
-- Evaluate what your system gets right and wrong
-- Reflect on how this mirrors real world AI recommenders
-
-Replace this paragraph with your own summary of what your version does.
-
----
+```sh
+python -m src.main
+python -m pip install -r requirements.txt
+python -m pytest -q
+```
 
 ## How The System Works
 
-Explain your design in plain language.
+Content-based filtering compares a track’s attributes with a listener’s preferences. Collaborative filtering uses behavior across listeners, such as shared likes or skips. This simulation uses the content-based approach because the catalog contains track metadata and no listening history.
 
-Some prompts to answer:
-
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
-- What information does your `UserProfile` store
-- How does your `Recommender` compute a score for each song
-- How do you choose which songs to recommend
-
-You can include a simple diagram or bullet list if helpful.
-
----
-
-## Getting Started
-
-### Setup
-
-1. Create a virtual environment (optional but recommended):
-
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate      # Mac or Linux
-   .venv\Scripts\activate         # Windows
-
-2. Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-3. Run the app:
-
-```bash
-python -m src.main
-```
-
-### Running Tests
-
-Run the starter tests with:
-
-```bash
-pytest
-```
-
-You can add more tests in `tests/test_recommender.py`.
-
----
-
+The profile contains a desired genre, mood, and energy from 0 to 1. The program gives 2 points for a genre match, 1 for a mood match, and up to 1 for energy similarity. Energy similarity is one minus the absolute difference from the target. It sorts by total score, breaks ties by ascending catalog ID, and prints the top five along with the score contributions. Exact genre matching can overweight familiar labels and reduce discovery. See the [Model Card](model_card.md) for the observed effect.
+ 
 ## Sample Recommendation Output
 
-Paste a sample of your recommender's output here as a text block so a reader can see what it produces:
+```text
+Loaded songs: 18
+
+High-Energy Pop
+1. Sunrise City (pop) | 3.98 | genre match (+2.00); mood match (+1.00); energy gap 0.02 (+0.98)
+2. Gym Hero (pop) | 2.87 | genre match (+2.00); mood differs (+0.00); energy gap 0.13 (+0.87)
+3. Transit Bloom (house) | 2.00 | genre differs (+0.00); mood match (+1.00); energy gap 0.00 (+1.00)
+4. Rooftop Lights (indie pop) | 1.96 | genre differs (+0.00); mood match (+1.00); energy gap 0.04 (+0.96)
+5. Market at Dusk (salsa) | 0.97 | genre differs (+0.00); mood differs (+0.00); energy gap 0.03 (+0.97)
+
+Chill Lofi
+1. Midnight Coding (lofi) | 3.98 | genre match (+2.00); mood match (+1.00); energy gap 0.02 (+0.98)
+2. Library Rain (lofi) | 3.95 | genre match (+2.00); mood match (+1.00); energy gap 0.05 (+0.95)
+3. Focus Flow (lofi) | 3.00 | genre match (+2.00); mood differs (+0.00); energy gap 0.00 (+1.00)
+4. Spacewalk Thoughts (ambient) | 1.88 | genre differs (+0.00); mood match (+1.00); energy gap 0.12 (+0.88)
+5. Coffee Shop Stories (jazz) | 0.97 | genre differs (+0.00); mood differs (+0.00); energy gap 0.03 (+0.97)
+
+Intense Rock
+1. Storm Runner (rock) | 3.99 | genre match (+2.00); mood match (+1.00); energy gap 0.01 (+0.99)
+2. Gym Hero (pop) | 1.97 | genre differs (+0.00); mood match (+1.00); energy gap 0.03 (+0.97)
+3. Concrete Letters (hip hop) | 0.98 | genre differs (+0.00); mood differs (+0.00); energy gap 0.02 (+0.98)
+4. Brass on Canal (ska) | 0.96 | genre differs (+0.00); mood differs (+0.00); energy gap 0.04 (+0.96)
+5. Signal in Blue (drum and bass) | 0.94 | genre differs (+0.00); mood differs (+0.00); energy gap 0.06 (+0.94)
+
+Sad but High-Energy
+1. Gym Hero (pop) | 2.97 | genre match (+2.00); mood differs (+0.00); energy gap 0.03 (+0.97)
+2. Sunrise City (pop) | 2.92 | genre match (+2.00); mood differs (+0.00); energy gap 0.08 (+0.92)
+3. Concrete Letters (hip hop) | 1.98 | genre differs (+0.00); mood match (+1.00); energy gap 0.02 (+0.98)
+4. Storm Runner (rock) | 0.99 | genre differs (+0.00); mood differs (+0.00); energy gap 0.01 (+0.99)
+5. Brass on Canal (ska) | 0.96 | genre differs (+0.00); mood differs (+0.00); energy gap 0.04 (+0.96)
+
+High-Energy Pop with genre halved and energy doubled
+1. Sunrise City (pop) | 3.96 | genre match (+1.00); mood match (+1.00); energy gap 0.02 (+1.96)
+2. Transit Bloom (house) | 3.00 | genre differs (+0.00); mood match (+1.00); energy gap 0.00 (+2.00)
+3. Rooftop Lights (indie pop) | 2.92 | genre differs (+0.00); mood match (+1.00); energy gap 0.04 (+1.92)
+4. Gym Hero (pop) | 2.74 | genre match (+1.00); mood differs (+0.00); energy gap 0.13 (+1.74)
+5. Market at Dusk (salsa) | 1.94 | genre differs (+0.00); mood differs (+0.00); energy gap 0.03 (+1.94)
 
 ```
-# e.g.:
-# User profile: genre=indie, mood=chill, energy=low
-# Recommendations:
-#   1. ...
-#   2. ...
-#   3. ...
-```
-
-**Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
-
----
-
-## Experiments You Tried
-
-Use this section to document the experiments you ran. For example:
-
-- What happened when you changed the weight on genre from 2.0 to 0.5
-- What happened when you added tempo or valence to the score
-- How did your system behave for different types of users
-
----
-
-## Limitations and Risks
-
-Summarize some limitations of your recommender.
-
-Examples:
-
-- It only works on a tiny catalog
-- It does not understand lyrics or language
-- It might over favor one genre or mood
-
-You will go deeper on this in your model card.
-
----
-
-## Reflection
-
-Read and complete `model_card.md`:
-
-[**Model Card**](model_card.md)
-
-Write 1 to 2 paragraphs here about what you learned:
-
-- about how recommenders turn data into predictions
-- about where bias or unfairness could show up in systems like this
-
-
-
